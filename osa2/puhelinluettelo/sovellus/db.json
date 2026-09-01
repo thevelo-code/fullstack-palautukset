@@ -1,0 +1,30 @@
+{
+  "persons": [
+    {
+      "name": "testt",
+      "number": "123123321",
+      "id": "4_E1hGSD_vA"
+    },
+    {
+      "name": "noniin",
+      "number": "testi",
+      "id": "P4oroVPS1Xw"
+    },
+    {
+      "name": "mikms",
+      "number": "errerere",
+      "id": "SaQLWDlxMxY"
+    },
+    {
+      "name": "Sam",
+      "number": "12345",
+      "id": "0AmHMMPOd9g"
+    },
+    {
+      "name": "Niko",
+      "number": "123456",
+      "id": "1-TR1lQYvq0"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
