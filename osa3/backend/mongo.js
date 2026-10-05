@@ -22,24 +22,24 @@ const person = new Person({
 })
 
 if (process.argv.length === 3) {
-    Person.find({}).then(result => {
-        console.log('phonebook:')
-        result.forEach(person => {
-            console.log(person.name, person.number)
-        })
+  Person.find({}).then(result => {
+    console.log('phonebook:')
+    result.forEach(person => {
+      console.log(person.name, person.number)
+    })
     mongoose.connection.close()
     process.exit(1)
-    })
+  })
 } else {
-    if (process.argv.length === 5) {
-        person.save().then(result => {
-            console.log(`Added ${name} number ${number} to phonebook`)
-            mongoose.connection.close()
-            process.exit(1)
-        })
-    } else {
-        console.log('give password, name, and number as arguments')
-        mongoose.connection.close()
-        process.exit(1)
-    }
+  if (process.argv.length === 5) {
+    person.save().then(() => {
+      console.log(`Added ${name} number ${number} to phonebook`)
+      mongoose.connection.close()
+      process.exit(1)
+    })
+  } else {
+    console.log('give password, name, and number as arguments')
+    mongoose.connection.close()
+    process.exit(1)
+  }
 }

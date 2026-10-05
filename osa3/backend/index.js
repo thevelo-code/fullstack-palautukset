@@ -7,12 +7,12 @@ const app = express()
 app.use(express.json())
 app.use(express.static('dist'))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
-morgan.token('body', function (req, res) { 
-    return JSON.stringify(req.body)
+morgan.token('body', function (req) {
+  return JSON.stringify(req.body)
 })
 
 
-const requestLogger = (request, response, next) => {
+const requestLogger = (request, _response, next) => {
   console.log('Method:', request.method)
   console.log('Path:  ', request.path)
   console.log('Body:  ', request.body)
@@ -25,11 +25,11 @@ app.use(requestLogger)
 
 
 
-app.get('/', (request, response) => {
+app.get('/', (_request, response) => {
   response.send('<h1>Hello World!</h1>')
 })
 
-app.get('/info', (request, response) => {
+app.get('/info', (_request, response) => {
   const date = new Date()
   Person.find({}).then((persons) => {
     response.send(`<p>Phonebook has info for ${persons.length} people</p><p>${date}</p>`)
@@ -38,7 +38,7 @@ app.get('/info', (request, response) => {
 
 
 
-app.get('/api/persons', (request, response) => {
+app.get('/api/persons', (_request, response) => {
   Person.find({}).then((persons) => {
     response.json(persons)
     //console.log('persons:', persons)
@@ -54,7 +54,7 @@ app.get('/api/persons/:id', (request, response, next) => {
       response.status(404).end()
     }
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 //vanha delete, ei toimi
@@ -69,7 +69,7 @@ app.delete('/api/persons/:id', (request, response) => {
 //uusi
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
@@ -89,7 +89,7 @@ app.post('/api/persons', (request, response, next) => {
     })
   }
 
-    if (!body.number) {
+  if (!body.number) {
     return response.status(400).json({
       error: 'numero puuttuu',
     })
@@ -106,10 +106,10 @@ app.post('/api/persons', (request, response, next) => {
   person.save().then((savedPerson) => {
     response.json(savedPerson)
   })
-  .catch(error => {
-    console.log('error:', error.message)
-    next(error)
-  })
+    .catch(error => {
+      console.log('error:', error.message)
+      next(error)
+    })
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
@@ -131,12 +131,12 @@ app.put('/api/persons/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-const unknownEndpoint = (request, response) => {
+const unknownEndpoint = (_request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
 app.use(unknownEndpoint)
 
-const errorHandler = (error, request, response, next) => {
+const errorHandler = (error, _request, response, next) => {
   console.log('----------------')
   console.error(error)
 

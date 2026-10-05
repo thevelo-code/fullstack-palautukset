@@ -6,7 +6,7 @@ const url = process.env.MONGODB_URI
 
 console.log('connecting to', url)
 mongoose.connect(url, { family: 4 })
-  .then(result => {
+  .then(() => {
     console.log('connected to MongoDB')
   })
   .catch((error) => {
@@ -14,17 +14,17 @@ mongoose.connect(url, { family: 4 })
   })
 
 const personSchema = new mongoose.Schema({
-  name: { 
+  name: {
     type: String,
-    minlength: [3, 'Nimen pituus on oltava vähintään 3 merkkiä'], 
+    minlength: [3, 'Nimen pituus on oltava vähintään 3 merkkiä'],
     required: [true, 'Nimi tarvitaan!'],
   },
-  number: { 
-    type: String, 
+  number: {
+    type: String,
     required: [true, 'Numero tarvitaan!'],
     validate: {
       validator: function(v) {
-        return /^(?=.{8,}$)\d{2,3}-\d+$/.test(v); //kiitos tekoäly
+        return /^(?=.{8,}$)\d{2,3}-\d+$/.test(v) //kiitos tekoäly
       },
       message: 'Numero ei ole oikeassa muodossa! (esim. 12-3456789 tai 123-4567890)'
     },
