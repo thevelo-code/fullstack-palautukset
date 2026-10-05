@@ -75,8 +75,7 @@ const App = () => {
         setPersons(persons.map(person => person.id !== current.id ? person : data))
       })
       .catch(error => {
-        showNotification(`Henkilö ${newName} ei löytynyt palvelimelta, yritä lisäämistä uudelleen`, 'error')
-        setPersons(persons.filter(person => person.id !== current.id))
+        showNotification(`Virhe numeron päivittämisessä: ${error.response.data.error}`, 'error')
       })
     setNewName('')
     setNewNumber('')
@@ -106,8 +105,7 @@ const App = () => {
         showNotification(`Lisättiin ${newName}`, 'success')
       })
       .catch(error => {
-        // Tää ei toimi, koska backend ei tällä hetkellä palauta virheviestiä. Pitäisi jotenkin pystyä tarkastamaan, että onko nimi jo olemassa.
-        showNotification(`Henkilö ${newName} oli jo palvelimella`, 'error')
+        showNotification(`${error.response.data.error}`, 'error')
         setNewName('')
         setNewNumber('')
       })
